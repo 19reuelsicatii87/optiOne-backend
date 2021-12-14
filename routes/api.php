@@ -20,9 +20,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+// Package Controller
+// ========================================================
 Route::post('/addPackage', 'PackageController@addPackage');
 Route::post('/updatePackage', 'PackageController@updatePackage');
 Route::get('/getPackage/{order_code}', 'PackageController@getPackage');
 Route::get('/listOptiPackages', 'PackageController@listOptiPackages');
 Route::get('/listDeliveryOptions', 'PackageController@listDeliveryOptions');
 Route::get('/listPaymentOptions', 'PackageController@listPaymentOptions');
+
+
+// Lead Controller
+// ========================================================
+Route::post('/addLead','LeadController@addLead');
+Route::get('/listLead','LeadController@listLead');
+Route::delete('/deleteLead/{id}','LeadController@deleteLead');
+Route::get('/getLead/{id}','LeadController@getLead');
+Route::post('/getLeadForm','LeadController@getLeadForm');
+Route::post('/updateLead','LeadController@updateLead');

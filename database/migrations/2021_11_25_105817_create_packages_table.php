@@ -19,8 +19,8 @@ class CreatePackagesTable extends Migration
             // Member Details
             // ========================================
             $table->string('membership_package', 10000)->nullable();
-            $table->string('order_code')->nullable();
-            $table->string('order_status')->nullable();
+            $table->string('order_code', 100)->nullable();
+            $table->string('order_status', 100)->nullable();
             $table->string('fullname', 100)->nullable();
             $table->string('email', 100)->nullable();
             $table->string('mobile', 100)->nullable();
