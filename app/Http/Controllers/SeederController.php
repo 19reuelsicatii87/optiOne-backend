@@ -26,8 +26,8 @@ class SeederController extends Controller
             $deliveryOption->delivery_fee = $req->input('delivery_fee');
             $deliveryOption->created_at = date("Y-m-d H:i:s");
             $deliveryOption->updated_at = date("Y-m-d H:i:s");
-            $deliveryOption->save();
-
+            $deliveryOption->save(); 
+ 
             return ['message' => 'Option added successfully'];
         } catch (\Throwable $th) {
             return ['message' => 'Error:' . $th->getMessage()];
