@@ -6,18 +6,26 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
+use App\Models\DeliveryOption;
 
 class SeederController extends Controller
 {
     function addDeliveryOption(Request $req)
     {
         try {
-            DB::table('delivery_options')->insert([
-                'delivery_option' => $req->input('delivery_option'),
-                'delivery_fee' => $req->input('delivery_fee'),
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ]);
+
+            $deliveryOption = new DeliveryOption;
+            // DB::table('delivery_options')->insert([
+            //     'delivery_option' => $req->input('delivery_option'),
+            //     'delivery_fee' => $req->input('delivery_fee'),
+            //     'created_at' => date("Y-m-d H:i:s"),
+            //     'updated_at' => date("Y-m-d H:i:s")
+            // ]);
+
+            $deliveryOption->delivery_option = $req->input('delivery_option');
+            $deliveryOption->delivery_fee = $req->input('delivery_fee');
+            $deliveryOption->created_at = date("Y-m-d H:i:s");
+            $deliveryOption->updated_at = date("Y-m-d H:i:s");
 
             return ['message' => 'Option added successfully'];
         } catch (\Throwable $th) {
