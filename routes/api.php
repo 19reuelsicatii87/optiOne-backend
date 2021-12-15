@@ -20,6 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+// Seeder Controller -DeliveryOption, PaymentOption, OptiPackages
+// ================================================================
+Route::post('/addDeliveryOption', 'SeederController@addDeliveryOption');
+Route::post('/updateDeliveryOption', 'SeederController@updateDeliveryOption');
+Route::post('/addPaymentOption', 'SeederController@addPaymentOption');
+Route::post('/updatePaymentOption', 'SeederController@updatePaymentOption');
+Route::post('/addOptiPackage', 'SeederController@addOptiPackage');
+Route::post('/updateOptiPackage', 'SeederController@updateOptiPackage');
+
+
+
 // Package Controller
 // ========================================================
 Route::post('/addPackage', 'PackageController@addPackage');
