@@ -15,7 +15,7 @@ class CreateDeliveryOptionsTable extends Migration
     {
         Schema::create('delivery_options', function (Blueprint $table) {
             $table->id();
-            $table->string('deliver_option', 100)->nullable();
+            $table->string('delivery_option', 100)->nullable();
             $table->float('delivery_fee', 8, 2)->nullable();
             $table->timestamps();
         });

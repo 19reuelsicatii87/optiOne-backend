@@ -14,20 +14,24 @@ class SeederController extends Controller
     {
         try {
 
-            $deliveryOption = new DeliveryOption;
-            // DB::table('delivery_options')->insert([
-            //     'delivery_option' => $req->input('delivery_option'),
-            //     'delivery_fee' => $req->input('delivery_fee'),
-            //     'created_at' => date("Y-m-d H:i:s"),
-            //     'updated_at' => date("Y-m-d H:i:s")
-            // ]);
+            // Query Builder
+            // ===============================
+            DB::table('delivery_options')->insert([
+                'delivery_option' => $req->input('delivery_option'),
+                'delivery_fee' => $req->input('delivery_fee'),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
 
-            $deliveryOption->delivery_option = $req->input('delivery_option');
-            $deliveryOption->delivery_fee = $req->input('delivery_fee');
-            $deliveryOption->created_at = date("Y-m-d H:i:s");
-            $deliveryOption->updated_at = date("Y-m-d H:i:s");
-            $deliveryOption->save(); 
- 
+            // Eloquent
+            // ===============================
+            // $deliveryOption = new DeliveryOption;
+            // $deliveryOption->delivery_option = $req->input('delivery_option');
+            // $deliveryOption->delivery_fee = $req->input('delivery_fee');
+            // $deliveryOption->created_at = date("Y-m-d H:i:s");
+            // $deliveryOption->updated_at = date("Y-m-d H:i:s");
+            // $deliveryOption->save();
+
             return ['message' => 'Option added successfully'];
         } catch (\Throwable $th) {
             return ['message' => 'Error:' . $th->getMessage()];
