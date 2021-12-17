@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLeadsTable extends Migration
+class CreateLeadsTableV2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateLeadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('leads', function (Blueprint $table) {
+        Schema::create('leads_table_v2', function (Blueprint $table) {
             $table->id();
 
             // Lead Details
             // ========================================
             $table->string('fullname', 100)->nullable();
-            $table->string('emailaddress', 100)->nullable();
             $table->string('email', 100)->nullable();
             $table->string('mobile', 100)->nullable();
             $table->string('stage', 100)->nullable();
@@ -39,6 +38,6 @@ class CreateLeadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leads');
+        Schema::dropIfExists('leads_table_v2');
     }
 }
