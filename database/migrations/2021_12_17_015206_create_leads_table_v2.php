@@ -13,7 +13,7 @@ class CreateLeadsTableV2 extends Migration
      */
     public function up()
     {
-        Schema::create('leads_table_v2', function (Blueprint $table) {
+        Schema::create('leads', function (Blueprint $table) {
             $table->id();
 
             // Lead Details
