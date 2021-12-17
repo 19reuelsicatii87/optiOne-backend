@@ -38,6 +38,6 @@ class CreateLeadsTableV2 extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leads_table_v2');
+        Schema::dropIfExists('leads');
     }
 }
