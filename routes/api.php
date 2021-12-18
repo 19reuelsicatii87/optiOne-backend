@@ -30,6 +30,13 @@ Route::post('/addOptiPackage', 'SeederController@addOptiPackage');
 Route::post('/updateOptiPackage', 'SeederController@updateOptiPackage');
 
 
+// Product Controller
+// ========================================================
+Route::post('/addProduct', 'ProductController@addProduct');
+Route::post('/updateProduct', 'ProductController@updateProduct');
+Route::get('/getProduct/{order_code}', 'ProductController@getProduct');
+
+
 
 // Package Controller
 // ========================================================
