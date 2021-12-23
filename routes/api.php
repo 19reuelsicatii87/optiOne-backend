@@ -35,6 +35,8 @@ Route::post('/updateOptiPackage', 'SeederController@updateOptiPackage');
 Route::post('/addProduct', 'ProductController@addProduct');
 Route::post('/updateProduct', 'ProductController@updateProduct');
 Route::get('/getProduct/{order_code}', 'ProductController@getProduct');
+Route::get('/listGuestOptiProducts', 'ProductController@listGuestOptiProducts');
+Route::get('/listMemberOptiProducts', 'ProductController@listMemberOptiProducts');
 
 
 

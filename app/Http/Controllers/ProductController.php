@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Product;
-use App\Models\Optiproduct;
+use App\Models\OptiProduct;
 use App\Models\DeliveryOption;
 use App\Models\PaymentOption;
 use Illuminate\Support\Facades\DB;
@@ -76,7 +76,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    function getProduct($order_code)
+    public function getProduct($order_code)
     {
         $product = Product::where('order_code', $order_code)->get();
 
@@ -85,5 +85,19 @@ class ProductController extends Controller
         }
 
         return ['message' => 'Product not found'];
+    }
+
+    function listGuestOptiProducts()
+    {
+
+        return OptiProduct::where('category', 'Guest')
+        ->get();
+    }
+
+    function listMemberOptiProducts()
+    {
+
+        return OptiProduct::where('category', 'Member')
+        ->get();
     }
 }

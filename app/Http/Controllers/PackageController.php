@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\OptiPackage;
 use App\Models\DeliveryOption;
 use App\Models\PaymentOption;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class PackageController extends Controller
@@ -81,13 +82,24 @@ class PackageController extends Controller
 
     function getPackage($order_code)
     {
-        $package = Package::where('order_code', $order_code)->get();
+        // return either Package or Product depending on Order_Code Length
+        //================================================================
+        if (strlen($order_code) == 15) {
+            $package = Package::where('order_code', $order_code)->get();
+            if ($package != NULL) {
+                return $package;
+            }
 
-        if ($package != NULL) {
-            return $package;
+            return ['message' => 'Package not found'];
+        } else {
+            $product = Product::where('order_code', $order_code)->get();
+
+            if ($product != NULL) {
+                return $product;
+            }
+
+            return ['message' => 'Product not found'];
         }
-
-        return ['message' => 'Package not found'];
     }
 
 
