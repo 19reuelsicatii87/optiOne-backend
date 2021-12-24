@@ -17,13 +17,13 @@ class PaymentOptionSeeder extends Seeder
         DB::table('payment_options')->insert([
             [
                 'payment_option' => 'GCash',
-                'payment_fee' => 0.00,
+                'payment_fee' => 10.00,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             [
                 'payment_option' => 'Bank Transfer',
-                'payment_fee' => 0.00,
+                'payment_fee' => 5.00,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ],
@@ -36,7 +36,7 @@ class PaymentOptionSeeder extends Seeder
             ],
             [
                 'payment_option' => 'Pay Maya',
-                'payment_fee' => 0.00,
+                'payment_fee' => 2.50,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ]
