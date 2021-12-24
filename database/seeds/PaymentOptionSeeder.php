@@ -35,7 +35,7 @@ class PaymentOptionSeeder extends Seeder
 
             ],
             [
-                'payment_option' => 'Pay Maya',
+                'payment_option' => 'PayMaya',
                 'payment_fee' => 2.50,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
