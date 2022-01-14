@@ -28,6 +28,20 @@ class LeadController extends Controller
         return Lead::paginate(30);
     }
 
+    function searchLead(Request $req)
+    {
+        $Lead = DB::table('leads')
+            ->where('fullname', 'like', '%'.$req->input('term').'%')
+            ->orWhere('mobile', 'like', '%'.$req->input('term').'%')
+            ->get();
+
+        if ($Lead != NULL) {
+            return $Lead;
+        }
+
+        return ['message' => 'Lead not found'];
+    }
+
     function deleteLead($id)
     {
 
@@ -39,7 +53,6 @@ class LeadController extends Controller
         }
 
         return ['message' => 'Lead not found'];
-        //return $Lead;
 
     }
 
@@ -73,8 +86,8 @@ class LeadController extends Controller
         $Lead = Lead::find($req->input('id'));
 
         $Lead->fullname = $req->input('fullname');
-        $Lead->emailaddress = $req->input('emailaddress');
-        $Lead->phonenumber = $req->input('phonenumber');
+        $Lead->email = $req->input('email');
+        $Lead->mobile = $req->input('mobile');
         $Lead->stage = $req->input('stage');
         $Lead->status = $req->input('status');
         $Lead->message = $req->input('message');
@@ -84,6 +97,4 @@ class LeadController extends Controller
         //return $Lead;
         return $req;
     }
-
-    
 }

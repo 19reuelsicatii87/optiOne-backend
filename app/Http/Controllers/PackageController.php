@@ -58,6 +58,26 @@ class PackageController extends Controller
         return $package;
     }
 
+        function listPackage()
+    {
+
+        return Package::paginate(30);
+    }
+
+    function searchPackage(Request $req)
+    {
+        $package = DB::table('packages')
+            ->where('fullname', 'like', '%'.$req->input('term').'%')
+            ->orWhere('mobile', 'like', '%'.$req->input('term').'%')
+            ->get();
+
+        if ($package != NULL) {
+            return $package;
+        }
+
+        return ['message' => 'Lead not found'];
+    }
+
     function updatePackage(Request $req)
     {
         $package = Package::find($req->input('id'));
@@ -78,6 +98,44 @@ class PackageController extends Controller
         $package->save();
 
         return $package;
+    }
+
+    function updatePackageFromDashboard(Request $req)
+    {
+        $product = Package::find($req->input('id'));
+
+        // Address and Payment Details
+        // ========================================
+        !empty($req->input('membership_package')) && $product->membership_package = $req->input('membership_package');
+        !empty($req->input('order_code')) && $product->order_code = $req->input('order_code');
+        !empty($req->input('order_status')) && $product->order_status = $req->input('order_status');
+        !empty($req->input('fullname')) && $product->fullname = $req->input('fullname');
+        !empty($req->input('email')) && $product->email = $req->input('email');
+        !empty($req->input('mobile')) && $product->mobile = $req->input('mobile');
+        !empty($req->input('landline')) && $product->landline = $req->input('landline');
+        !empty($req->input('gender')) && $product->gender = $req->input('gender');
+        !empty($req->input('civil_status')) && $product->civil_status = $req->input('civil_status');
+        !empty($req->input('date_of_birth')) && $product->date_of_birth = $req->input('date_of_birth');
+        !empty($req->file('slip_file_path')) && $product->slip_file_path = $req->file('slip_file_path')->store('products');   
+        !empty($req->input('houseBuild_name')) && $product->houseBuild_name = $req->input('houseBuild_name');
+        !empty($req->input('street')) && $product->street = $req->input('street');
+        !empty($req->input('barangray')) && $product->barangray = $req->input('barangray');
+        !empty($req->input('city')) && $product->city = $req->input('city');
+        !empty($req->input('province')) && $product->province = $req->input('province');
+        !empty($req->input('zipCode')) && $product->zipCode = $req->input('zipCode');
+        !empty($req->input('delivery_option')) && $product->delivery_option = $req->input('delivery_option');
+        !empty($req->input('delivery_fee')) && $product->delivery_fee = $req->input('delivery_fee');
+        !empty($req->input('payment_option')) && $product->payment_option = $req->input('payment_option');
+        !empty($req->input('payment_fee')) && $product->payment_fee = $req->input('payment_fee');  
+        // !empty($req->input('discount')) && $product->discount = $req->input('discount');
+        !empty($req->input('total')) && $product->total = $req->input('total');
+      
+
+        // Insert to DB-Packages Table
+        // ===============================================
+        $product->save();
+
+        return $product;
     }
 
     function getPackage($order_code)
@@ -101,7 +159,6 @@ class PackageController extends Controller
             return ['message' => 'Product not found'];
         }
     }
-
 
     function listOptiPackages()
     {
