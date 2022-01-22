@@ -28,7 +28,7 @@ class CreatePackagesTable extends Migration
             $table->string('gender', 100)->nullable();
             $table->string('civil_status', 100)->nullable();
             $table->string('date_of_birth', 100)->nullable();
-            $table->string('slip_file_path', 100)->nullable();
+            $table->string('slip_file_path', 10000)->nullable();
 
 
             // Address and Payment Details

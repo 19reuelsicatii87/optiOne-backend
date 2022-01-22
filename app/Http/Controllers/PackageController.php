@@ -10,6 +10,7 @@ use App\Models\DeliveryOption;
 use App\Models\PaymentOption;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PackageController extends Controller
 {
@@ -58,7 +59,7 @@ class PackageController extends Controller
         return $package;
     }
 
-        function listPackage()
+    function listPackage()
     {
 
         return Package::paginate(30);
@@ -67,8 +68,8 @@ class PackageController extends Controller
     function searchPackage(Request $req)
     {
         $package = DB::table('packages')
-            ->where('fullname', 'like', '%'.$req->input('term').'%')
-            ->orWhere('mobile', 'like', '%'.$req->input('term').'%')
+            ->where('fullname', 'like', '%' . $req->input('term') . '%')
+            ->orWhere('mobile', 'like', '%' . $req->input('term') . '%')
             ->get();
 
         if ($package != NULL) {
@@ -82,6 +83,10 @@ class PackageController extends Controller
     {
         $package = Package::find($req->input('id'));
 
+        // Upload Image to S3
+        // ========================================
+        $path = $req->file('file_path')->store('package', 's3');
+
         // Address and Payment Details
         // ========================================
         $package->order_status = 'Payment Validation';
@@ -89,15 +94,15 @@ class PackageController extends Controller
         $package->payment_fee = $req->input('payment_fee');
         $package->total = $req->input('total');
 
-        // Do not require fileUpload
+        // Image URL of S3
         // ===============================================
-        !empty($req->file('file_path')) && $package->slip_file_path = $req->file('file_path')->store('products');
+        !empty($req->file('file_path')) && $package->slip_file_path = Storage::disk('s3')->url($path);
 
         // Insert to DB-Packages Table
         // ===============================================
         $package->save();
 
-        return $package;
+        return $package;        
     }
 
     function updatePackageFromDashboard(Request $req)
@@ -116,7 +121,7 @@ class PackageController extends Controller
         !empty($req->input('gender')) && $product->gender = $req->input('gender');
         !empty($req->input('civil_status')) && $product->civil_status = $req->input('civil_status');
         !empty($req->input('date_of_birth')) && $product->date_of_birth = $req->input('date_of_birth');
-        !empty($req->file('slip_file_path')) && $product->slip_file_path = $req->file('slip_file_path')->store('products');   
+        !empty($req->file('slip_file_path')) && $product->slip_file_path = $req->file('slip_file_path')->store('products');
         !empty($req->input('houseBuild_name')) && $product->houseBuild_name = $req->input('houseBuild_name');
         !empty($req->input('street')) && $product->street = $req->input('street');
         !empty($req->input('barangray')) && $product->barangray = $req->input('barangray');
@@ -126,10 +131,10 @@ class PackageController extends Controller
         !empty($req->input('delivery_option')) && $product->delivery_option = $req->input('delivery_option');
         !empty($req->input('delivery_fee')) && $product->delivery_fee = $req->input('delivery_fee');
         !empty($req->input('payment_option')) && $product->payment_option = $req->input('payment_option');
-        !empty($req->input('payment_fee')) && $product->payment_fee = $req->input('payment_fee');  
+        !empty($req->input('payment_fee')) && $product->payment_fee = $req->input('payment_fee');
         // !empty($req->input('discount')) && $product->discount = $req->input('discount');
         !empty($req->input('total')) && $product->total = $req->input('total');
-      
+
 
         // Insert to DB-Packages Table
         // ===============================================

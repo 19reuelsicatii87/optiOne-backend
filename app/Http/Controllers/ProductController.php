@@ -9,6 +9,7 @@ use App\Models\OptiProduct;
 use App\Models\DeliveryOption;
 use App\Models\PaymentOption;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -101,6 +102,10 @@ class ProductController extends Controller
     {
         $product = Product::find($req->input('id'));
 
+        // Upload Image to S3
+        // ========================================
+        $path = $req->file('file_path')->store('product', 's3');
+
         // Address and Payment Details
         // ========================================
         $product->order_status = 'Payment Validation';
@@ -108,9 +113,9 @@ class ProductController extends Controller
         $product->payment_fee = $req->input('payment_fee');
         $product->total = $req->input('total');
 
-        // Do not require fileUpload
+        // Image URL of S3
         // ===============================================
-        !empty($req->file('file_path')) && $product->slip_file_path = $req->file('file_path')->store('products');
+        !empty($req->file('file_path')) && $product->slip_file_path = Storage::disk('s3')->url($path);
 
         // Insert to DB-Packages Table
         // ===============================================
