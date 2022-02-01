@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Based Domain
+// =============================================
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+);
+
+// Email Sequence
+// =============================================
+Route::get(
+    '/email-sequence/{viewName}',
+    function ($viewName) {
+        return view($viewName);
+    }
+);
