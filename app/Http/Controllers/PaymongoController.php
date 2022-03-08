@@ -87,28 +87,40 @@ class PaymongoController extends Controller
     function sourceChargeable(Request $req)
     {
 
-        // Get Record
+        // // Get Record
+        // // =======================================================
+        // $record = DB::table('transactions')
+        //     ->where('source_id', $req->input('data.attributes.data.id'))
+        //     ->where('status', 'chargeable')
+        //     ->limit(1)
+        //     ->get();
+
+        // if (!$record) {
+
+        //     // Save to DB
+        //     // =======================================================
+        //     $transaction = new Transaction;
+        //     $transaction->type = $req->input('data.type');
+        //     $transaction->source_id = $req->input('data.attributes.data.id');
+        //     $transaction->source_type = $req->input('data.attributes.data.attributes.type');
+        //     $transaction->status = $req->input('data.attributes.data.attributes.status');
+        //     $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
+        //     $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
+        //     $transaction->response_source = json_encode($req->input('data'));
+        //     $transaction->save();
+        // }
+
+        // Save to DB
         // =======================================================
-        $record = DB::table('transactions')
-            ->where('source_id', $req->input('data.attributes.data.id'))
-            ->where('status', 'chargeable')
-            ->limit(1)
-            ->get();
-
-        if (!$record) {
-
-            // Save to DB
-            // =======================================================
-            $transaction = new Transaction;
-            $transaction->type = $req->input('data.type');
-            $transaction->source_id = $req->input('data.attributes.data.id');
-            $transaction->source_type = $req->input('data.attributes.data.attributes.type');
-            $transaction->status = $req->input('data.attributes.data.attributes.status');
-            $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
-            $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
-            $transaction->response_source = json_encode($req->input('data'));
-            $transaction->save();
-        }
+        $transaction = new Transaction;
+        $transaction->type = $req->input('data.type');
+        $transaction->source_id = $req->input('data.attributes.data.id');
+        $transaction->source_type = $req->input('data.attributes.data.attributes.type');
+        $transaction->status = $req->input('data.attributes.data.attributes.status');
+        $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
+        $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
+        $transaction->response_source = json_encode($req->input('data'));
+        $transaction->save();
 
 
 
@@ -137,29 +149,42 @@ class PaymongoController extends Controller
                 ]
             ]);
 
-        // Get Record
-        // =======================================================
-        $record = DB::table('transactions')
-            ->where('source_id', $payment->id)
-            ->where('status', 'paid')
-            ->limit(1)
-            ->get();
+        // // Get Record
+        // // =======================================================
+        // $record = DB::table('transactions')
+        //     ->where('source_id', $payment->id)
+        //     ->where('status', 'paid')
+        //     ->limit(1)
+        //     ->get();
 
-        if (!$record) {
+        // if (!$record) {
 
-            // Setting, SerialSazing and Saving to table
-            //=========================================
-            $transaction = new Transaction;
-            $transaction->type = $payment->type;
-            $transaction->source_id = $payment->id;
-            $transaction->source_type = $payment->source_type;
-            $transaction->status = $payment->status;
-            $transaction->amount = $payment->amount;
-            $temp = $payment->redirect;
-            $transaction->checkout_url = $temp['checkout_url'];
-            $transaction->response_source = json_encode($payment->getData());
-            $transaction->save();
-        }
+        //     // Setting, SerialSazing and Saving to table
+        //     //=========================================
+        //     $transaction = new Transaction;
+        //     $transaction->type = $payment->type;
+        //     $transaction->source_id = $payment->id;
+        //     $transaction->source_type = $payment->source_type;
+        //     $transaction->status = $payment->status;
+        //     $transaction->amount = $payment->amount;
+        //     $temp = $payment->redirect;
+        //     $transaction->checkout_url = $temp['checkout_url'];
+        //     $transaction->response_source = json_encode($payment->getData());
+        //     $transaction->save();
+        // }
+
+        // Setting, SerialSazing and Saving to table
+        //=========================================
+        $transaction = new Transaction;
+        $transaction->type = $payment->type;
+        $transaction->source_id = $payment->id;
+        $transaction->source_type = $payment->source_type;
+        $transaction->status = $payment->status;
+        $transaction->amount = $payment->amount;
+        $temp = $payment->redirect;
+        $transaction->checkout_url = $temp['checkout_url'];
+        $transaction->response_source = json_encode($payment->getData());
+        $transaction->save();
 
 
         //return  '$transaction';
