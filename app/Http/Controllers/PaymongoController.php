@@ -86,17 +86,28 @@ class PaymongoController extends Controller
 
     function sourceChargeable(Request $req)
     {
-        // Save to DB
+
+        // Get Record
         // =======================================================
-        $transaction = new Transaction;
-        $transaction->type = $req->input('data.type');
-        $transaction->source_id = $req->input('data.attributes.data.id');
-        $transaction->source_type = $req->input('data.attributes.data.attributes.type');
-        $transaction->status = $req->input('data.attributes.data.attributes.status');
-        $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
-        $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
-        $transaction->response_source = json_encode($req->input('data'));
-        $transaction->save();
+        $record = DB::table('transactions')
+            ->where('source_id', $req->input('data.attributes.data.id'))
+            ->get();
+
+        if ($record == NULL) {
+
+            // Save to DB
+            // =======================================================
+            $transaction = new Transaction;
+            $transaction->type = $req->input('data.type');
+            $transaction->source_id = $req->input('data.attributes.data.id');
+            $transaction->source_type = $req->input('data.attributes.data.attributes.type');
+            $transaction->status = $req->input('data.attributes.data.attributes.status');
+            $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
+            $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
+            $transaction->response_source = json_encode($req->input('data'));
+            $transaction->save();
+        }
+
 
 
         // Create Payment
@@ -124,24 +135,34 @@ class PaymongoController extends Controller
                 ]
             ]);
 
-        // Setting, SerialSazing and Saving to table
-        //=========================================
-        $transaction = new Transaction;
-        $transaction->type = $payment->type;
-        $transaction->source_id = $payment->id;
-        $transaction->source_type = $payment->source_type;
-        $transaction->status = $payment->status;
-        $transaction->amount = $payment->amount;
-        $temp = $payment->redirect;
-        $transaction->checkout_url = $temp['checkout_url'];
-        $transaction->response_source = json_encode($payment->getData());
-        $transaction->save();
+        // Get Record
+        // =======================================================
+        $record = DB::table('transactions')
+            ->where('source_id', $payment->id)
+            ->get();
+
+        if ($record == NULL) {
+
+            // Setting, SerialSazing and Saving to table
+            //=========================================
+            $transaction = new Transaction;
+            $transaction->type = $payment->type;
+            $transaction->source_id = $payment->id;
+            $transaction->source_type = $payment->source_type;
+            $transaction->status = $payment->status;
+            $transaction->amount = $payment->amount;
+            $temp = $payment->redirect;
+            $transaction->checkout_url = $temp['checkout_url'];
+            $transaction->response_source = json_encode($payment->getData());
+            $transaction->save();
+        }
+
 
         //return  '$transaction';
         return  response()->noContent(204);
     }
 
-    function testCreatePayment(Request $transaction)
+    function testCreatePayment(Request $req)
     {
 
         // $payment = Paymongo::payment()
@@ -169,7 +190,12 @@ class PaymongoController extends Controller
         // $transaction->response_source = json_encode($payment->getData());
         // $transaction->save();
 
-        return  response()->noContent(204);
-    
+        //return  response()->noContent(204);
+
+        // Save to DB
+        // =======================================================
+        $record = DB::table('transactions')
+            ->where('source_id', $req->input('data.attributes.data.id'))
+            ->get();
     }
 }
