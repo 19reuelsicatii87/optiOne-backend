@@ -81,7 +81,7 @@ Route::post('/updateLead', 'LeadController@updateLead');
 
 // Paymongo Controller
 // ========================================================
-Route::get('/gcashSource', 'PaymongoController@gcashSource');
+Route::post('/gcashSource', 'PaymongoController@gcashSource');
 Route::get('/grabPaySource', 'PaymongoController@grabPaySource');
 
 

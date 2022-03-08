@@ -10,12 +10,12 @@ use Illuminate\Http\Response;
 
 class PaymongoController extends Controller
 {
-    function gcashSource()
+    function gcashSource(Request $req)
     {
 
         $gcashSource = Paymongo::source()->create([
             'type' => 'gcash',
-            'amount' => 102.00,
+            'amount' => $req->input('amount'),
             'currency' => 'PHP',
             'redirect' => [
                 'success' => 'https://malasakitoneopti.netlify.app/success',
