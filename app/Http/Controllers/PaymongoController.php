@@ -15,7 +15,7 @@ class PaymongoController extends Controller
 
         $gcashSource = Paymongo::source()->create([
             'type' => 'gcash',
-            'amount' => 100.00,
+            'amount' => 99.00,
             'currency' => 'PHP',
             'redirect' => [
                 'success' => 'https://malasakitoneopti.netlify.app/success',
@@ -87,43 +87,28 @@ class PaymongoController extends Controller
     function sourceChargeable(Request $req)
     {
 
-        // // Get Record
-        // // =======================================================
-        // $record = DB::table('transactions')
-        //     ->where('source_id', $req->input('data.attributes.data.id'))
-        //     ->where('status', 'chargeable')
-        //     ->limit(1)
-        //     ->get();
-
-        // if (!$record) {
-
-        //     // Save to DB
-        //     // =======================================================
-        //     $transaction = new Transaction;
-        //     $transaction->type = $req->input('data.type');
-        //     $transaction->source_id = $req->input('data.attributes.data.id');
-        //     $transaction->source_type = $req->input('data.attributes.data.attributes.type');
-        //     $transaction->status = $req->input('data.attributes.data.attributes.status');
-        //     $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
-        //     $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
-        //     $transaction->response_source = json_encode($req->input('data'));
-        //     $transaction->save();
-        // }
-
-        // Save to DB
+        // Get Record
         // =======================================================
-        $transaction = new Transaction;
-        $transaction->type = $req->input('data.type');
-        $transaction->source_id = $req->input('data.attributes.data.id');
-        $transaction->source_type = $req->input('data.attributes.data.attributes.type');
-        $transaction->status = $req->input('data.attributes.data.attributes.status');
-        $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
-        $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
-        $transaction->response_source = json_encode($req->input('data'));
-        $transaction->save();
+        $record = DB::table('transactions')
+            ->where('source_id', $req->input('data.attributes.data.id'))
+            ->where('status', 'chargeable')
+            ->limit(1)
+            ->get();
 
+        if ($record->isEmpty()) {
 
-
+            // Save to DB
+            // =======================================================
+            $transaction = new Transaction;
+            $transaction->type = $req->input('data.type');
+            $transaction->source_id = $req->input('data.attributes.data.id');
+            $transaction->source_type = $req->input('data.attributes.data.attributes.type');
+            $transaction->status = $req->input('data.attributes.data.attributes.status');
+            $transaction->amount = floatval($req->input('data.attributes.data.attributes.amount') / 100);
+            $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
+            $transaction->response_source = json_encode($req->input('data'));
+            $transaction->save();
+        }
 
 
         // Create Payment
