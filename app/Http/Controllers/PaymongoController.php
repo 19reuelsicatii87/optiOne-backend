@@ -15,7 +15,7 @@ class PaymongoController extends Controller
 
         $gcashSource = Paymongo::source()->create([
             'type' => 'gcash',
-            'amount' => 101.00,
+            'amount' => 102.00,
             'currency' => 'PHP',
             'redirect' => [
                 'success' => 'https://malasakitoneopti.netlify.app/success',
@@ -108,12 +108,12 @@ class PaymongoController extends Controller
             $transaction->checkout_url = $req->input('data.attributes.data.attributes.redirect.checkout_url');
             $transaction->response_source = json_encode($req->input('data'));
             $transaction->save();
+
+            // Create Payment
+            // =======================================================
+            $this->createPayment($transaction);
         }
 
-
-        // Create Payment
-        // =======================================================
-        $this->createPayment($transaction);
 
         // Responsd 200 to WebHook
         // =======================================================
