@@ -199,8 +199,8 @@ class PaymongoController extends Controller
         // Save to DB
         // =======================================================
         $record = DB::table('transactions')
-            ->where('source_id', $req->input('source_id'))
-            ->where('status', 'chargeable')
+            ->where('source_id', $req->input('data.attributes.data.id'))
+            ->where('status', $req->input('data.attributes.data.attributes.status'))
             ->limit(1)
             ->get();
 
