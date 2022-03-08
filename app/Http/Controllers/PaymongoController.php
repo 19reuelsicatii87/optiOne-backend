@@ -91,7 +91,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $req->input('data.attributes.data.id'))
-            ->orWhere('status', 'chargeable')
+            ->where('status', 'chargeable')
             ->limit(1)
             ->get();
 
@@ -141,7 +141,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $payment->id)
-            ->orWhere('status', 'paid')
+            ->where('status', 'paid')
             ->limit(1)
             ->get();
 
@@ -200,7 +200,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $req->input('source_id'))
-            ->orWhere('status', 'chargeable')
+            ->where('status', 'chargeable')
             ->limit(1)
             ->get();
 
