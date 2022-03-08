@@ -15,7 +15,7 @@ class PaymongoController extends Controller
 
         $gcashSource = Paymongo::source()->create([
             'type' => 'gcash',
-            'amount' => 99.00,
+            'amount' => 101.00,
             'currency' => 'PHP',
             'redirect' => [
                 'success' => 'https://malasakitoneopti.netlify.app/success',
