@@ -91,6 +91,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $req->input('data.attributes.data.id'))
+            ->orWhere('status', 'chargeable')
             ->get();
 
         if ($record == NULL) {
@@ -139,6 +140,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $payment->id)
+            ->orWhere('status', 'paid')
             ->get();
 
         if ($record == NULL) {
