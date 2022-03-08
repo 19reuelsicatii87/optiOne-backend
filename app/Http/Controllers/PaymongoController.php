@@ -95,7 +95,7 @@ class PaymongoController extends Controller
             ->limit(1)
             ->get();
 
-        if ($record == NULL) {
+        if (!$record) {
 
             // Save to DB
             // =======================================================
@@ -145,7 +145,7 @@ class PaymongoController extends Controller
             ->limit(1)
             ->get();
 
-        if ($record == NULL) {
+        if (!$record) {
 
             // Setting, SerialSazing and Saving to table
             //=========================================
