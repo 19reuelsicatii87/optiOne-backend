@@ -141,6 +141,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $payment->id)
+            ->orWhere('status', 'paid')
             ->limit(1)
             ->get();
 
