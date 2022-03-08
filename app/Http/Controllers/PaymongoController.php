@@ -159,7 +159,7 @@ class PaymongoController extends Controller
             ->limit(1)
             ->get();
 
-        if (!$record) {
+        if ($record->isEmpty()) {
 
             // Setting, SerialSazing and Saving to table
             //=========================================
