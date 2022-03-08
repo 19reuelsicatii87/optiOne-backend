@@ -91,7 +91,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $req->input('data.attributes.data.id'))
-            ->orWhere('status', 'chargeable')
+            ->limit(1)
             ->get();
 
         if ($record == NULL) {
@@ -140,7 +140,7 @@ class PaymongoController extends Controller
         // =======================================================
         $record = DB::table('transactions')
             ->where('source_id', $payment->id)
-            ->orWhere('status', 'paid')
+            ->limit(1)
             ->get();
 
         if ($record == NULL) {
@@ -197,7 +197,19 @@ class PaymongoController extends Controller
         // Save to DB
         // =======================================================
         $record = DB::table('transactions')
-            ->where('source_id', $req->input('data.attributes.data.id'))
+            ->where('source_id', 'src_wZ8pJPV6tL4Dwfq8YgaXMKAR')
+            ->limit(1)
             ->get();
+
+
+            if ($record == NULL) {
+
+                return "Execute Save";
+
+            }
+
+            return "Do not Execute Save";
+
+             
     }
 }
