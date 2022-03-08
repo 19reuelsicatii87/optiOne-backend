@@ -105,7 +105,7 @@ class PaymongoController extends Controller
 
         // Responsd 200 to WebHook
         // =======================================================
-        return  ['success', '200 OK'];
+        return  response()->noContent(200);
     }
 
 
@@ -138,7 +138,7 @@ class PaymongoController extends Controller
         $transaction->save();
 
         //return  '$transaction';
-        return  ['success', '200 OK'];
+        return  response()->noContent(200);
     }
 
     function testCreatePayment(Request $transaction)
@@ -169,7 +169,7 @@ class PaymongoController extends Controller
         // $transaction->response_source = json_encode($payment->getData());
         // $transaction->save();
 
-        return  ['success', '200 OK'];
+        return  response()->noContent(200);
     
     }
 }
